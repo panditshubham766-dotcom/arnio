@@ -72,6 +72,17 @@ class CleaningSuggestion(tuple):
             f"confidence_reason={self.confidence_reason!r})"
         )
 
+    def __getitem__(self, item: Any) -> Any:
+        res = super().__getitem__(item)
+        if isinstance(item, slice):
+            return CleaningSuggestion(
+                step=self.step,
+                kwargs=self.kwargs,
+                confidence_score=self.confidence_score,
+                confidence_reason=self.confidence_reason,
+            )
+        return res
+
 
 @dataclass(frozen=True)
 class ColumnProfile:
